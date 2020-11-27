@@ -27,12 +27,12 @@ const Form = () => {
         setCode(e.target.value);
     };
 
-    useEffect( () => {
-        navigator.geolocation.getCurrentPosition( position => {
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(position => {
             console.log(position);
             setCoord({ lat: position.coords.latitude, lon: position.coords.longitude })
-        }, err => console.error(err) )
-    }, [] );
+        }, err => console.error(err))
+    }, []);
 
     return (
         <div className={Style.container}>
@@ -45,16 +45,16 @@ const Form = () => {
                 </div>
             </form>
             <section className={Style.section_a} >
-                <h4 style={{ textTransform: 'capitalize' }}>Description: {data.weather ? data.weather[0].description : current.weather ? current.weather[0].description: 'Not Available'}</h4>
-                <p>Temperature: {data.main ? data.main.temp : current.main ? current.main.temp : 'Not Available'}<span style={{ display: data.main ? 'inline' : 'none' }}>°C</span></p>
-                <p>Latitude: {data.coord ? data.coord.lat : current.coord ? current.coord.lat: 'Not Available'}</p>
-                <p>Longitude: {data.coord ? data.coord.lon : current.coord ? current.coord.lon : 'Not Available'}</p>
-                <p>Humidity: {data.main ? data.main.humidity : current.main ? current.main.humidity : 'Not Available'}</p>
-                <p>Pressure: {data.main ? data.main.pressure :  current.main ? current.main.pressure : 'Not Available'}</p>
+                <h4 style={{ textTransform: 'capitalize' }}>Description: {data.weather ? data.weather[0].description : current.weather ? current.weather[0].description : 'Not Available'}</h4>
+                <p>Temperature: {data.main ? Math.round(data.main.temp - 273.15) : current.main ? Math.round(current.main.temp - 273.15) : 'Not Available'}<span style={{ marginLeft: '2px' }}>°C</span></p>
+                <p>Latitude: {data.coord ? Math.round(data.coord.lat) : current.coord ? Math.round(current.coord.lat) : 'Not Available'}</p>
+                <p>Longitude: {data.coord ? Math.round(data.coord.lon) : current.coord ? Math.round(current.coord.lon) : 'Not Available'}</p>
+                <p>Humidity: {data.main ? Math.round(data.main.humidity) : current.main ? Math.round(current.main.humidity) : 'Not Available'}<span style={{ marginLeft: '0px' }}>%</span></p>
+                <p>Pressure: {data.main ? Math.round(data.main.pressure) : current.main ? Math.round(current.main.pressure) : 'Not Available'}<span style={{ marginLeft: '3px' }}>atm</span></p>
             </section>
 
             <section className={Style.map}>
-                <MapView search={search} data={data} loading={loading} current={current}/>
+                <MapView search={search} data={data} loading={loading} current={current} />
             </section>
         </div>
     )
